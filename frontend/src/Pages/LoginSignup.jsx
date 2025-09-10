@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './CSS/LoginSignup.css';
+import { API_URL } from "../config";   // ✅ config.js se backend URL import
 
 const LoginSignup = () => {
   const [state, setState] = useState("Login");
@@ -12,10 +13,10 @@ const LoginSignup = () => {
   const login = async () => {
     console.log("Login Function Executed", formData);
     let responseData;
-    await fetch('http://localhost:4000/login', {
+    await fetch(`${API_URL}/login`, {   // ✅ localhost ki jagah API_URL
       method: 'POST',
       headers: {
-        Accept: 'application/form-data',
+        Accept: 'application/json',     // ✅ sahi header
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(formData),
@@ -35,10 +36,10 @@ const LoginSignup = () => {
   const signup = async () => {
     console.log("Signup Function Executed", formData);
     let responseData;
-    await fetch('http://localhost:4000/signup', {
+    await fetch(`${API_URL}/signup`, {   // ✅ localhost ki jagah API_URL
       method: 'POST',
       headers: {
-        Accept: 'application/form-data',
+        Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(formData),
