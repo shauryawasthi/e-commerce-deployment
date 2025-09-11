@@ -7,14 +7,14 @@ const path = require("path");
 
 const app = express();
 
-// 🔹 Deployment ke liye port dynamic hona chahiye
+// 🔹 Render ke liye PORT dynamic hona zaruri hai
 const port = process.env.PORT || 4000;
 
 // Middlewares
 app.use(express.json());
 app.use(cors());
 
-// ✅ MongoDB Atlas se connect karo (direct string use kiya hai)
+// ✅ MongoDB Atlas Connection (hardcoded)
 mongoose.connect("mongodb+srv://shiv:Shiva%402003@cluster0.oi1gnwe.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=Cluster0")
   .then(() => {
     console.log("✅ MongoDB connected");
@@ -50,7 +50,7 @@ const Users = mongoose.model("Users", {
 
 // ✅ Base route
 app.get("/", (req, res) => {
-  res.send("✅ Express App is Running (Deployed)");
+  res.send("✅ Express App is Running (Deployed on Render)");
 });
 
 // ✅ Multer config for image uploads
@@ -65,7 +65,6 @@ app.use('/images', express.static('upload/images'));
 
 // ✅ Image Upload
 app.post("/upload", upload.single('product'), (req, res) => {
-  // ⚡ Deployment ke liye dynamic URL
   const imageUrl = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
   res.json({ success: 1, image_url: imageUrl });
 });
@@ -149,6 +148,6 @@ app.post('/login', async (req, res) => {
 // ✅ New Collections
 app.get('/newcollections', async (req, res) => {
   let products = await Product.find({});
-  let newcollection = products.slice(-8); // last 8 products
+  let newcollection = products.slice(-8);
   res.send(newcollection);
 });
